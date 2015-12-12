@@ -18,6 +18,7 @@
 		<script src="js/angular.js"></script> 
 		<script src="js/angular-route.js"></script> 
 		<script src="js/app.js"></script>
+		<script src="js/RegisterController.js"></script>
 
 		<title> IoT Platform </title>
 	</head>

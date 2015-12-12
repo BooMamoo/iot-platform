@@ -33,7 +33,7 @@ class TypeTableSeeder extends Seeder
             'updated_at' => new DateTime,
         ],[
             'id' => 5,
-            'type' => 'Tempurature',
+            'type' => 'Temperature',
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ],[

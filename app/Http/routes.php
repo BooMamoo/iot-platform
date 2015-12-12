@@ -11,6 +11,8 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+// Route::get('/register', 'RegisterController@index');
+Route::post('/data', 'IndexController@recieveData');
+
+Route::get('/', 'IndexController@index');
+Route::get('{any}', 'IndexController@index')->where('any', '.*');
