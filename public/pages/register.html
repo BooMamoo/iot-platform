@@ -1,0 +1,53 @@
+<div class="page-header">
+	<h3 class="blue-grey-text darken-4-text">Registration</h3>
+</div>
+
+<div class="page-content">
+	<div class="row">
+		<div class="input-field col s12">
+            <input id="device" type="text" class="validate" ng-model="model.device">
+            <label for="device">Device</label>
+        </div>
+
+		<div class="input-field col s12">
+            <input id="location" type="text" class="validate" ng-model="model.location">
+            <label for="location">Location</label>
+        </div>
+
+		<div class="input-field col s12">
+            <input id="interval" type="number" class="validate" ng-model="model.interval">
+            <label for="interval">Interval (Seconds)</label>
+        </div>
+
+		<form id="selectType">
+			<div class="select-box col s12">
+				<select ng-model="model.idType" convert-to-number class="black-text">
+					<option value="" disabled selected>Choose Type</option>
+					<option my-repeat-directive ng-repeat="type in types" class="black-text" value="{{ type.id }}">{{ type.type }}</option>
+				</select>
+			</div>
+		</form>
+
+		<form id="selectUnit">
+			<div class="select-box col s12">
+				<select ng-model="model.idUnit" convert-to-number class="black-text">
+					<option value="" disabled selected>Choose Unit</option>
+					<option my-repeat-directive ng-repeat="unit in units[model.idType]" class="black-text" value="{{ unit.id }}">{{ unit.unit }}</option>
+				</select>
+			</div>
+		</form>
+
+		<div class="input-field col s12">
+            <input id="formula" type="text" class="validate" ng-model="model.formula">
+            <label for="formula">Formula</label>
+        </div>
+
+		<button ng-click="submit()" class="btn waves-effect waves-light right" type="submit" name="action">Submit
+			<i class="material-icons right">send</i>
+		</button>
+        
+	</div>
+
+    <!-- <a class="btn-floating waves-effect waves-light red right add"><i class="material-icons">add</i></a> -->
+	
+</div>

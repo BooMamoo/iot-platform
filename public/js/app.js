@@ -5,18 +5,21 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: 'pages/index.html'
 	});
 
-	// $routeProvider.when('/device/register', {
-	// 	templateUrl: 'pages/register.html',
-	// 	controller: 'RegisterController',
-	// 	resolve: {
-	// 		types: ['$http', function($http){
-	// 			return $http.get("/register");
-	// 		}],
-	// 		units: ['$http', function($http){
-	// 			return $http.get("/register");
-	// 		}],
-	// 	}
-	// });
+	$routeProvider.when('/device/register', {
+		templateUrl: 'pages/register.html',
+		controller: 'RegisterController',
+		resolve: {
+			datas: ['$http', function($http){
+				return $http.get("/register");
+			}]
+			// types: ['$http', function($http){
+			// 	return $http.get("/register");
+			// }],
+			// units: ['$http', function($http){
+			// 	return $http.get("/register");
+			// }]
+		}
+	});
 
 	// $routeProvider.when('/list', {
 	// 	templateUrl: 'pages/list.html',

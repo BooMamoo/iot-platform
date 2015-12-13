@@ -11,7 +11,8 @@
 |
 */
 
-// Route::get('/register', 'RegisterController@index');
+Route::get('/register', 'RegisterController@index');
+Route::post('/regis', 'RegisterController@store');
 Route::post('/data', 'IndexController@recieveData');
 
 Route::get('/', 'IndexController@index');

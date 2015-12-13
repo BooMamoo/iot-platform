@@ -15,6 +15,7 @@
 		<link rel="stylesheet" href="css/template.css">
 
 		<script src="js/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.96.1/js/materialize.min.js"></script>	
 		<script src="js/angular.js"></script> 
 		<script src="js/angular-route.js"></script> 
 		<script src="js/app.js"></script>
@@ -66,6 +67,8 @@
 		<script>
 			$(document).ready(function() {
  
+ 				$('select').material_select();
+ 				
 				@yield('script')
 
 			});
