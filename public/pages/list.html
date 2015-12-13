@@ -1,0 +1,16 @@
+<div class="page-header">
+	<h3 class="blue-grey-text darken-4-text"> Devices </h3>
+</div>
+
+<div class="page-content">
+	<div ng-repeat="device in devices">
+		<h6>{{ device.name }}</h6>
+		<p>Location : {{ device.location }}</p>
+		<p>interval : {{ device.interval }} Seconds</p>
+		<div class="type">
+			<p>Type</p>
+			<p ng-repeat="map in device.mapping">{{ index + 1 }}. <b>Type:</b> {{ map.type.type }} | <b>Unit:</b> {{ map.unit.unit }} | <b>Formula:</b> {{ map.formula }}</p>
+		</div>
+		<div class="divider"></div>
+	</div>
+</div>

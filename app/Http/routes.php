@@ -13,6 +13,7 @@
 
 Route::get('/register', 'RegisterController@index');
 Route::post('/regis', 'RegisterController@store');
+Route::get('/list', 'DeviceController@index');
 Route::post('/data', 'IndexController@recieveData');
 
 Route::get('/', 'IndexController@index');

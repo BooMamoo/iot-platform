@@ -20,6 +20,7 @@
 		<script src="js/angular-route.js"></script> 
 		<script src="js/app.js"></script>
 		<script src="js/RegisterController.js"></script>
+		<script src="js/ListController.js"></script>
 
 		<title> IoT Platform </title>
 	</head>
@@ -33,7 +34,8 @@
 				<ul id="nav-mobile" class="right hide-on-med-and-down space">
 
 					@if(!Auth::guest())
-						<li><a href="{{ url('/Registration') }}" class="blue-grey-text darken-4-text"> Registration </a></li>
+						<li><a href="{{ url('//device/register') }}" class="blue-grey-text darken-4-text"> Registration </a></li>
+						<li><a href="{{ url('/device/list') }}" class="blue-grey-text darken-4-text"> Device </a></li>
 					@endif
 
 					@if (Auth::guest())
@@ -68,7 +70,7 @@
 			$(document).ready(function() {
  
  				$('select').material_select();
- 				
+
 				@yield('script')
 
 			});

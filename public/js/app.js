@@ -21,15 +21,15 @@ app.config(function($routeProvider, $locationProvider) {
 		}
 	});
 
-	// $routeProvider.when('/list', {
-	// 	templateUrl: 'pages/list.html',
-	// 	controller: 'RoomController',
-		// resolve: {
-		// 	roomData: ['$http', function($http){
-		// 		return $http.get("/room");
-		// 	}]
-		// }
-	// });
+	$routeProvider.when('/device/list', {
+		templateUrl: 'pages/list.html',
+		controller: 'ListController',
+		resolve: {
+			datas: ['$http', function($http){
+				return $http.get("/list");
+			}]
+		}
+	});
 
 	$routeProvider.otherwise({
 		redirectTo: '/'
