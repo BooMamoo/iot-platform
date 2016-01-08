@@ -11,6 +11,7 @@ use App\Type;
 use App\Unit;
 use App\Mapping;
 use App\Information;
+use GuzzleHttp\Client;
 
 class RegisterController extends Controller
 {
@@ -44,7 +45,25 @@ class RegisterController extends Controller
     	$mapping->formula = $formula;
     	$mapping->save();
 
+        $this->sendToServer($new_device, 'device');
+        $this->sendToServer($mapping, 'mapping');
+
     	return "true";
     	// return "false";
+    }
+
+    public function sendToServer($data, $parameter)
+    {
+        $url = 'http://192.168.1.50/data/store';
+        $client = new Client();
+        $response = $client->request('POST', $url, [
+            'json' => [
+                'data' => $data, 
+                'parameter' => $parameter, 
+                'local' => 'Local A'
+            ]
+        ]);
+
+        print_r($response->getBody()->getContents());
     }
 }
