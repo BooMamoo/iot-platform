@@ -64,6 +64,6 @@ class RegisterController extends Controller
             ]
         ]);
 
-        print_r($response->getBody()->getContents());
+        // print_r($response->getBody()->getContents());
     }
 }
