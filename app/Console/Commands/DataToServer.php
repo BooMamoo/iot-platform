@@ -46,13 +46,16 @@ class DataToServer extends Command
         {
             $last_id = $informations[$count - 1]->id;
 
-            $url = 'http://192.168.1.50/data/store';
+            $ip = config('ip');
+            $url = $ip . '/data/store';
             $client = new Client();
+            $local = config('local');
+
             $response = $client->request('POST', $url, [
                 'json' => [
                     'data' => $informations, 
                     'parameter' => 'data', 
-                    'local' => 'Local A'
+                    'local' => $local
                 ]
             ]);
 

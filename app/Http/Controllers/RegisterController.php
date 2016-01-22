@@ -54,13 +54,16 @@ class RegisterController extends Controller
 
     public function sendToServer($data, $parameter)
     {
-        $url = 'http://192.168.1.50/data/store';
+        $ip = config('ip');
+        $url = $ip . '/data/store';
         $client = new Client();
+        $local = config('local');
+
         $response = $client->request('POST', $url, [
             'json' => [
                 'data' => $data, 
                 'parameter' => $parameter, 
-                'local' => 'Local A'
+                'local' => $local
             ]
         ]);
 
