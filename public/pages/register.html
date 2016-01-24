@@ -5,49 +5,86 @@
 <div class="page-content">
 	<div class="row">
 		<div class="input-field col s12">
-            <input id="device" type="text" class="validate" ng-model="model.device">
+            <input id="device" type="text" class="validate" ng-model="device">
             <label for="device">Device</label>
         </div>
 
 		<div class="input-field col s12">
-            <input id="location" type="text" class="validate" ng-model="model.location">
+            <input id="location" type="text" class="validate" ng-model="location">
             <label for="location">Location</label>
         </div>
 
 		<div class="input-field col s12">
-            <input id="interval" type="number" class="validate" ng-model="model.interval">
+            <input id="interval" type="number" class="validate" ng-model="interval">
             <label for="interval">Interval (Seconds)</label>
         </div>
+    </div>
 
-		<form id="selectType">
-			<div class="select-box col s12">
-				<select ng-model="model.idType" convert-to-number class="black-text">
-					<option value="" disabled selected>Choose Type</option>
-					<option my-repeat-directive ng-repeat="type in types" class="black-text" value="{{ type.id }}">{{ type.type }}</option>
-				</select>
-			</div>
-		</form>
+    <div class="form-group" data-ng-repeat="aType in allType">
+	    <div id="addType" showTypeLabel(aType)>
+	    	<div id="type" class="row type-box">
+		    	<form id="selectType">
+					<div class="select-box col s3">
+						<select ng-model="aType.type_id" convert-to-number class="black-text">
+							<option value="" disabled selected>Choose Type</option>
+							<option my-repeat-directive ng-repeat="type in types" class="black-text" value="{{ type.id }}">{{ type.type }}</option>
+						</select>
+					</div>
+				</form>
 
-		<form id="selectUnit">
-			<div class="select-box col s12">
-				<select ng-model="model.idUnit" convert-to-number class="black-text">
-					<option value="" disabled selected>Choose Unit</option>
-					<option my-repeat-directive ng-repeat="unit in units[model.idType]" class="black-text" value="{{ unit.id }}">{{ unit.unit }}</option>
-				</select>
-			</div>
-		</form>
+				<form id="selectUnit">
+					<div class="select-box col s3">
+						<select ng-model="aType.unit_id" convert-to-number class="black-text">
+							<option value="" disabled selected>Choose Unit</option>
+							<option my-repeat-directive ng-repeat="unit in units[aType.type_id]" class="black-text" value="{{ unit.id }}">{{ unit.unit }}</option>
+						</select>
+					</div>
+				</form>
 
-		<div class="input-field col s12">
-            <input id="formula" type="text" class="validate" ng-model="model.formula">
-            <label for="formula">Formula</label>
-        </div>
+				<div class="input-field col s3">
+		            <input id="formula" type="text" class="validate" ng-model="aType.formula">
+		            <label for="formula">Formula</label>
+		        </div>
 
-		<button ng-click="submit()" class="btn waves-effect waves-light right" type="submit" name="action">Submit
-			<i class="material-icons right">send</i>
-		</button>
-        
+		        <div class="col s3" ng-if="numType > 1">
+		            <a class="btn waves-effect waves-light red right" ng-click="removeType(aType.id)">Detete</a>
+		        </div>
+		    </div>
+	    </div>
+
+	    <div class="row">
+	    	<a class="btn-floating waves-effect waves-light red right add" ng-show="showAddType(aType)" ng-click="addNewType()"><i class="material-icons">add</i></a>
+	    </div>
 	</div>
 
-    <!-- <a class="btn-floating waves-effect waves-light red right add"><i class="material-icons">add</i></a> -->
-	
+	<div class="row">
+    	<button ng-click="submit()" class="btn waves-effect waves-light right" type="submit" name="action">Submit
+		<i class="material-icons right">send</i>
+	</button>
+    </div>	
 </div>
+
+
+<!-- <div class="form-group" data-ng-repeat="choice in choices">
+  <label for="choice" ng-show="showChoiceLabel(choice)">Choices</label>
+  <button ng-show="showAddChoice(choice)" ng-click="addNewChoice()">Add another choice</button>
+  <input type="text" ng-model="choice.name" name="" placeholder="Enter a restaurant name">
+</div> -->
+
+<!-- <div class="form-group" data-ng-repeat="choice in choices">
+	<form id="selectType" showChoiceLabel(choice)>
+		<div class="select-box col s4">
+			<select ng-model="choice.idType" convert-to-number class="black-text">
+				<option value="" disabled selected>Choose Type</option>
+				<option my-repeat-directive ng-repeat="type in types" class="black-text" value="{{ type.id }}">{{ type.type }}</option>
+			</select>
+		</div>
+	</form>
+  <button ng-show="showAddChoice(choice)" ng-click="addNewChoice()">Add another choice</button>
+  
+</div> -->
+
+
+	
+
+	

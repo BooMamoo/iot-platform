@@ -28,9 +28,7 @@ class RegisterController extends Controller
     	$device = $request->input('device');
     	$location = $request->input('location');
     	$interval = $request->input('interval');
-    	$type_id = $request->input('type_id');
-    	$unit_id = $request->input('unit_id');
-    	$formula = $request->input('formula');
+        $types = $request->input('types');
 
     	$new_device = new Device;
     	$new_device->name = $device;
@@ -38,15 +36,19 @@ class RegisterController extends Controller
     	$new_device->interval = $interval;
     	$new_device->save();
 
-    	$mapping = new Mapping;
-    	$mapping->device_id = $new_device->id;
-    	$mapping->type_id = $type_id;
-    	$mapping->unit_id = $unit_id;
-    	$mapping->formula = $formula;
-    	$mapping->save();
-
         $this->sendToServer($new_device, 'device');
-        $this->sendToServer($mapping, 'mapping');
+
+        for($i = 0 ; $i < count($types) ; $i++)
+        {
+            $mapping = new Mapping;
+            $mapping->device_id = $new_device->id;
+            $mapping->type_id = $types[$i]['type_id'];
+            $mapping->unit_id = $types[$i]['unit_id'];
+            $mapping->formula = $types[$i]['formula'];
+            $mapping->save();
+
+            $this->sendToServer($mapping, 'mapping');
+        }
 
     	return "true";
     	// return "false";

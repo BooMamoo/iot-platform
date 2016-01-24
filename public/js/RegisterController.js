@@ -1,6 +1,8 @@
-app.controller('RegisterController', function($scope, $http, data) {
+app.controller('RegisterController', function($scope, $http, $compile, data) {
 	$scope.types = data.data.types;
 	$scope.units = data.data.units;
+	$scope.allType = [{id: 'type1'}];
+	$scope.numType = 1;
 
 	var tmp = {}
 
@@ -19,17 +21,36 @@ app.controller('RegisterController', function($scope, $http, data) {
 
 	$scope.units = tmp;
 
+	$scope.addNewType = function() {
+		var newItemNo = $scope.allType.length + 1;
+		$scope.allType.push({'id': 'type' + newItemNo});
+		$scope.numType = $scope.allType.length;
+	};
+
+	$scope.showAddType = function(type) {
+		return type.id === $scope.allType[$scope.allType.length - 1].id;
+	};
+
+	$scope.removeType = function(id) {
+		for(var i = 0 ; i < $scope.allType.length ; i++) {
+			if($scope.allType[i].id == id)
+			{
+				$scope.allType.splice(i, 1);
+			}
+		}
+
+		$scope.numType = $scope.allType.length;
+	};
+
 	$scope.submit = function(){
 		$http({
 		    method: 'POST',
 		    url: '/regis',
 		    data: {
-		    	'device': $scope.model.device,
-		    	'location': $scope.model.location,
-		    	'interval': $scope.model.interval,
-		    	'type_id': $scope.model.idType,
-		    	'unit_id': $scope.model.idUnit,
-		    	'formula': $scope.model.formula
+		    	'device': $scope.device,
+		    	'location': $scope.location,
+		    	'interval': $scope.interval,
+		    	'types': $scope.allType
 		    }
 		}).success(function(data) {
 	        if(data == "true")
@@ -41,15 +62,12 @@ app.controller('RegisterController', function($scope, $http, data) {
 	            Materialize.toast("Fail", 2000)
 	        }
 
-	        $scope.model.device = "";
-		   	$scope.model.location = "";
-		    $scope.model.interval = "";
-		    $scope.model.formula = "";
-	        $('#selectType').trigger('reset');
-	        $('#selectUnit').trigger('reset');
+	        $scope.device = "";
+		   	$scope.location = "";
+		    $scope.interval = "";
+		    $scope.allType = [{id: 'type1'}];
 	    });
 	}
-
 });
 
 app.directive('myRepeatDirective', function($timeout) 
