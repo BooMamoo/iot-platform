@@ -13,8 +13,11 @@
 
 Route::get('/register', 'RegisterController@index');
 Route::post('/regis', 'RegisterController@store');
-Route::get('/list', 'DeviceController@index');
+
 Route::post('/data', 'IndexController@recieveData');
+
+Route::get('/device/list/data', 'DeviceController@index');
+Route::get('/device/{device_id}/data', 'DeviceController@device');
 
 Route::get('/', 'IndexController@index');
 Route::get('{any}', 'IndexController@index')->where('any', '.*');

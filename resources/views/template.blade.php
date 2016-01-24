@@ -21,6 +21,7 @@
 		<script src="js/app.js"></script>
 		<script src="js/RegisterController.js"></script>
 		<script src="js/ListController.js"></script>
+		<script src="js/DeviceInfoController.js"></script>
 
 		<title> IoT Platform </title>
 	</head>

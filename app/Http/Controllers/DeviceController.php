@@ -13,8 +13,15 @@ class DeviceController extends Controller
 {
     public function index()
     {
-    	$devices = Device::with('mapping')->get();
+    	$devices = Device::All();
 
     	return compact('devices');
+    }
+
+    public function device($device_id)
+    {
+    	$data = Device::with('mapping')->where('id', '=', $device_id)->get();
+
+    	return $data;
     }
 }

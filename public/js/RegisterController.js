@@ -1,6 +1,6 @@
-app.controller('RegisterController', function($scope, $http, datas) {
-	$scope.types = datas.data.types;
-	$scope.units = datas.data.units;
+app.controller('RegisterController', function($scope, $http, data) {
+	$scope.types = data.data.types;
+	$scope.units = data.data.units;
 
 	var tmp = {}
 

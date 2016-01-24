@@ -1,0 +1,12 @@
+<div>
+	<h3>{{ device.name }}</h3>
+</div>
+
+<div>
+	<p>Device : {{ device.name }}</p>
+	<p>Location : {{ device.location }}</p>
+	<p>Interval : {{ device.interval }} Seconds</p>
+	<p ng-repeat="mapping in device.mapping">Type : {{ mapping.type.type }}  ||  Unit : {{ mapping.unit.unit }}</p>
+	<button>Edit</button>
+	<button>Delete</button>
+</div>

@@ -9,7 +9,7 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: 'pages/register.html',
 		controller: 'RegisterController',
 		resolve: {
-			datas: ['$http', function($http){
+			data: ['$http', function($http){
 				return $http.get("/register");
 			}]
 			// types: ['$http', function($http){
@@ -25,8 +25,18 @@ app.config(function($routeProvider, $locationProvider) {
 		templateUrl: 'pages/list.html',
 		controller: 'ListController',
 		resolve: {
-			datas: ['$http', function($http){
-				return $http.get("/list");
+			data: ['$http', function($http){
+				return $http.get("/device/list/data");
+			}]
+		}
+	});
+
+	$routeProvider.when('/device/:device/info', {
+		templateUrl: 'pages/info.html',
+		controller: 'DeviceInfoController',
+		resolve: {
+			data: ['$http', '$route', function($http, $route){
+				return $http.get("/device/" + $route.current.params.device + "/data");
 			}]
 		}
 	});
