@@ -36,7 +36,7 @@ class RegisterController extends Controller
     	$new_device->interval = $interval;
     	$new_device->save();
 
-        $this->sendToServer($new_device, 'device');
+        // $this->sendToServer($new_device, 'device');
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -47,11 +47,21 @@ class RegisterController extends Controller
             $mapping->formula = $types[$i]['formula'];
             $mapping->save();
 
-            $this->sendToServer($mapping, 'mapping');
+            // $this->sendToServer($mapping, 'mapping');
         }
 
     	return "true";
     	// return "false";
+    }
+
+    public function delete(Request $request)
+    {
+        $device_id = $request->input('device_id');
+
+        $delete_device = Device::find($device_id);
+        $delete_device->delete();
+
+        return "true";
     }
 
     public function sendToServer($data, $parameter)
