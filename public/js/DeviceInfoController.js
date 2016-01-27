@@ -1,6 +1,10 @@
 app.controller('DeviceInfoController', function($scope, $http, $location, data){
 	$scope.device = data.data[0];
 
+	$scope.edit = function(device_id) {
+        $location.path('/device/' + device_id + "/edit");
+    }
+
 	$scope.delete = function(device_id) {
     	$http({
 			method: 'POST',

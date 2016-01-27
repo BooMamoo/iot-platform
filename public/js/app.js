@@ -41,6 +41,19 @@ app.config(function($routeProvider, $locationProvider) {
 		}
 	});
 
+	$routeProvider.when('/device/:device/edit', {
+		templateUrl: 'pages/edit.html',
+		controller: 'DeviceEditController',
+		resolve: {
+			data: ['$http', '$route', function($http, $route){
+				return $http.get("/device/" + $route.current.params.device + "/data");
+			}],
+			types: ['$http', function($http){
+				return $http.get("/register");
+			}]
+		}
+	});
+
 	$routeProvider.otherwise({
 		redirectTo: '/'
 	});

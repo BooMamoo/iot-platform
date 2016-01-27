@@ -5,7 +5,7 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 	$scope.numType = 1;
 
 	var tmp = {}
-
+	console.log($scope.types);
 	for(var i = 0 ; i < $scope.units.length ; i++)
 	{
 		if(tmp.hasOwnProperty($scope.units[i].type_id))
@@ -24,23 +24,13 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 	$scope.addNewType = function() {
 		var newItemNo = $scope.allType.length + 1;
 		$scope.allType.push({'id': 'type' + newItemNo});
-		$scope.numType = $scope.allType.length;
+		$scope.numType++;
 	};
 
-	$scope.showAddType = function(type) {
-		return type.id === $scope.allType[$scope.allType.length - 1].id;
-	};
-
-	$scope.removeType = function(id) {
-		for(var i = 0 ; i < $scope.allType.length ; i++) {
-			if($scope.allType[i].id == id)
-			{
-				$scope.allType.splice(i, 1);
-			}
-		}
-
-		$scope.numType = $scope.allType.length;
-	};
+	$scope.removeType = function(index) {
+		$scope.allType.splice(index, 1);
+		$scope.numType--;
+	}
 
 	$scope.submit = function(){
 		$http({
@@ -68,17 +58,4 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 		    $scope.allType = [{id: 'type1'}];
 	    });
 	}
-});
-
-app.directive('myRepeatDirective', function($timeout) 
-{
-    return function(scope, element, attrs) 
-    {
-        if (element.is("option")) 
-        {
-            $timeout(function() {
-                $('select').material_select();
-            });  
-        }
-    };
 });

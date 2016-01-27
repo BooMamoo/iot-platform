@@ -7,6 +7,6 @@
 	<p>Location : {{ device.location }}</p>
 	<p>Interval : {{ device.interval }} Seconds</p>
 	<p ng-repeat="mapping in device.mapping">Type : {{ mapping.type.type }}  ||  Unit : {{ mapping.unit.unit }}</p>
-	<button>Edit</button>
+	<button ng-click="edit(device.id)">Edit</button>
 	<button ng-click="delete(device.id)">Delete</button>
 </div>

@@ -36,7 +36,7 @@ class RegisterController extends Controller
     	$new_device->interval = $interval;
     	$new_device->save();
 
-        // $this->sendToServer($new_device, 'device');
+        $this->sendToServer($new_device, 'device');
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -47,12 +47,76 @@ class RegisterController extends Controller
             $mapping->formula = $types[$i]['formula'];
             $mapping->save();
 
-            // $this->sendToServer($mapping, 'mapping');
+            $this->sendToServer($mapping, 'mapping');
         }
 
     	return "true";
     	// return "false";
     }
+
+    public function edit(Request $request)
+    {
+        $device = $request->input('device');
+        $types = $request->input('types');
+
+        $edit_device = Device::find($device['id']);
+        $edit_device->name = $device['name'];
+        $edit_device->location = $device['location'];
+        $edit_device->interval = $device['interval'];
+        $edit_device->save();
+        $device = $edit_device;
+
+        for($i = 0 ; $i < count($types) ; $i++)
+        {
+            switch ($types[$i]['item']) {
+                case "old":
+                    switch ($types[$i]['status']) {
+                        case true:
+                            $edit_type = Mapping::find($types[$i]['mapping_id']);
+                            $edit_type->type_id = $types[$i]['type_id'];
+                            $edit_type->unit_id = $types[$i]['unit_id'];
+                            $edit_type->formula = $types[$i]['formula'];
+                            $edit_type->save();
+                            break;
+
+                        case false:
+                            $delete_type = Mapping::find($types[$i]['mapping_id']);
+                            $delete_type->delete();
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    break;
+
+                case "new":
+                    switch ($types[$i]['status']) {
+                        case true:
+                            $new_type = new Mapping;
+                            $new_type->device_id = $device->id;
+                            $new_type->type_id = $types[$i]['type_id'];
+                            $new_type->unit_id = $types[$i]['unit_id'];
+                            $new_type->formula = $types[$i]['formula'];
+                            $new_type->save();
+                            break;
+
+                        default:
+                            break;
+                    }
+
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        $mapping = Mapping::where('device_id', '=', $device->id)->get();
+        $status = "true";
+
+        return compact('device', 'mapping', 'status');
+    } 
 
     public function delete(Request $request)
     {
