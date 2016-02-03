@@ -11,15 +11,21 @@
 |
 */
 
-Route::get('/register', 'RegisterController@index');
-Route::post('/regis', 'RegisterController@store');
-Route::post('/device/edit', 'RegisterController@edit');
-Route::post('/device/delete', 'RegisterController@delete');
+Route::controllers([
+	'auth' => 'Auth\AuthController',
+	'password' => 'Auth\PasswordController',
+]);
 
 Route::post('/data', 'IndexController@recieveData');
 
-Route::get('/device/list/data', 'DeviceController@index');
-Route::get('/device/{device_id}/data', 'DeviceController@device');
+Route::group(['middleware' => 'auth'], function() {
+	Route::get('/register', 'RegisterController@index');
+	Route::post('/regis', 'RegisterController@store');
+	Route::post('/device/edit', 'RegisterController@edit');
+	Route::post('/device/delete', 'RegisterController@delete');
 
-Route::get('/', 'IndexController@index');
-Route::get('{any}', 'IndexController@index')->where('any', '.*');
+	Route::get('/device/list/data', 'DeviceController@index');
+	Route::get('/device/{device_id}/data', 'DeviceController@device');
+
+	Route::get('{any}', 'IndexController@index')->where('any', '.*');
+});

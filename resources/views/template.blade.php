@@ -38,13 +38,8 @@
 				<ul id="nav-mobile" class="right hide-on-med-and-down space">
 
 					@if(!Auth::guest())
-						<li><a href="{{ url('//device/register') }}" class="blue-grey-text darken-4-text"> Registration </a></li>
+						<li><a href="{{ url('/device/register') }}" class="blue-grey-text darken-4-text"> Registration </a></li>
 						<li><a href="{{ url('/device/list') }}" class="blue-grey-text darken-4-text"> Device </a></li>
-					@endif
-
-					@if (Auth::guest())
-						<li><a href="{{ url('/auth/login') }}" target="_self" class="blue-grey-text darken-4-text">Login</a></li>
-					@else
 						<li><a class="dropdown-button" href="" data-activates="dropdown1" class="blue-grey-text darken-4-text"> {{ Auth::user()->name }} <i class="mdi-navigation-arrow-drop-down right"></i></a></li>
 						<ul id="dropdown1" class="dropdown-content">
 							<li><a href="{{ url('/auth/logout') }}" target="_self" class="blue-grey-text darken-4-text">Logout</a></li>
