@@ -19,48 +19,59 @@
 		<script src="js/angular.js"></script> 
 		<script src="js/angular-route.js"></script> 
 		<script src="js/app.js"></script>
-		<script src="js/RegisterController.js"></script>
-		<script src="js/ListController.js"></script>
-		<script src="js/DeviceInfoController.js"></script>
-		<script src="js/DeviceEditController.js"></script>
+
+		<script src="js/Controller/RegisterController.js"></script>
+		<script src="js/Controller/ListController.js"></script>
+		<script src="js/Controller/DeviceInfoController.js"></script>
+		<script src="js/Controller/DeviceEditController.js"></script>
 
 		<script src="js/Directive/RepeatDirective.js"></script>
 
-		<title> IoT Platform </title>
+		<title> IoT PAS </title>
+		<link rel="shortcut icon" href="../picture/icon-web.png" type="image/png">
 	</head>
 
-	<body class="grey lighten-3" ng-app="app">
+	<body ng-app="app">
+		<div class="navbar-fixed">
+			<nav>
+			    <div class="nav-wrapper">
+					<a href="{{ url('/') }}" class="brand-logo space"><img src="../picture/text.png" alt="Text" height="41" width="111.11"></a>
 
-		<nav>
-		    <div class="nav-wrapper white">
-				<a href="{{ url('/') }}" class="brand-logo space blue-grey-text darken-4-text"> IoT Platform </a>
-
-				<ul id="nav-mobile" class="right hide-on-med-and-down space">
+					<ul class="right hide-on-med-and-down space valign-wrapper">
+						@if(!Auth::guest())
+							<li><a href="{{ url('/device/register') }}"> Registration </a></li>
+							<li><a href="{{ url('/device/list') }}"> Device </a></li>
+							<li><a class="dropdown-button" href="" data-activates="dropdown1"> {{ Auth::user()->name }} <i class="mdi-navigation-arrow-drop-down right"></i></a></li>
+							<ul id="dropdown1" class="dropdown-content">
+								<li><a href="{{ url('/auth/logout') }}" target="_self">Logout</a></li>
+							</ul>
+						@endif
+					</ul>
 
 					@if(!Auth::guest())
-						<li><a href="{{ url('/device/register') }}" class="blue-grey-text darken-4-text"> Registration </a></li>
-						<li><a href="{{ url('/device/list') }}" class="blue-grey-text darken-4-text"> Device </a></li>
-						<li><a class="dropdown-button" href="" data-activates="dropdown1" class="blue-grey-text darken-4-text"> {{ Auth::user()->name }} <i class="mdi-navigation-arrow-drop-down right"></i></a></li>
-						<ul id="dropdown1" class="dropdown-content">
-							<li><a href="{{ url('/auth/logout') }}" target="_self" class="blue-grey-text darken-4-text">Logout</a></li>
+						<ul id="nav-mobile" class="side-nav pink lighten-4">
+							<li><a href="{{ url('/device/register') }}" class="blue-grey-text darken-4-text"> Registration </a></li>
+							<li><a href="{{ url('/device/list') }}" class="blue-grey-text darken-4-text"> Device </a></li>	
+							<li><a href="{{ url('/auth/logout') }}" class="blue-grey-text darken-4-text" target="_self">Logout</a></li>
 						</ul>
+
+						<a href="#" data-activates="nav-mobile" class="button-collapse space right"><i class="material-icons">menu</i></a>
 					@endif
+				</div>
+			</nav>
+		</div>
 
-				</ul>
 
-		    </div>
-		</nav>
-
-		<div class="container content">
+		<div>
 
 			@yield('content')
 
 		</div>
 
 		<footer class="page-footer transparent">	
-		    <div class="footer-copyright grey lighten-1">
-				<div class="space right white-text">
-				    Boo Mamoo :)
+		    <div class="footer-copyright red lighten-1">
+				<div class="space right">
+				    By Boo Mamoo :)
 				</div>
 		    </div>
 		</footer>
@@ -68,6 +79,11 @@
 		<script>
 			$(document).ready(function() {
  
+ 				$('.button-collapse').sideNav({
+						edge: 'right'
+					}
+				);
+
  				$('select').material_select();
 
 				@yield('script')

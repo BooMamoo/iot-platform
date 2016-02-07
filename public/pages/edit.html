@@ -1,66 +1,68 @@
-<div class="page-header">
-	<h3 class="blue-grey-text darken-4-text">{{ device_name }} - Edit</h3>
-</div>
+<div class="container content">
+	<div class="page-header">
+		<p class="blue-grey-text darken-4-text"><strong>{{ device_name }} - Edit</strong></p>
+		<div class="divider"></div>
+	</div>
 
-<div class="page-content">
-	<div class="row">
-		<div class="input-field col s12">
-            <input id="device" type="text" class="validate" ng-model="device.name">
-            <label for="device" class="active">Device</label>
-        </div>
+	<div class="page-content blue-grey lighten-5">
+		<div class="row">
+			<div class="input-field col s12">
+	            <input id="device" type="text" class="validate" ng-model="device.name">
+	            <label for="device" class="active">Device</label>
+	        </div>
 
-		<div class="input-field col s12">
-            <input id="location" type="text" class="validate" ng-model="device.location">
-            <label for="location" class="active">Location</label>
-        </div>
+			<div class="input-field col s12">
+	            <input id="location" type="text" class="validate" ng-model="device.location">
+	            <label for="location" class="active">Location</label>
+	        </div>
 
-		<div class="input-field col s12">
-            <input id="interval" type="number" class="validate" ng-model="device.interval">
-            <label for="interval" class="active">Interval (Seconds)</label>
-        </div>
-    </div>
+			<div class="input-field col s12">
+	            <input id="interval" type="number" class="validate" ng-model="device.interval">
+	            <label for="interval" class="active">Interval (Seconds)</label>
+	        </div>
+	    </div>
 
-	<div class="form-group" data-ng-repeat="aType in allType" ng-show="aType.status">
-	    <div id="addType" showTypeLabel(aType)>
-	    	<div id="type" class="row type-box">
-		    	<form id="selectType">
-					<div class="select-box col s3">
-						<select ng-model="aType.type_id" convert-to-number class="black-text">
-							<option value="" disabled selected>Choose Type</option>
-							<option ng-selected="{{ aType.type_id == type.id }}" my-repeat-directive ng-repeat="type in types" class="black-text" value="{{ type.id }}">{{ type.type }}</option>
-						</select>
-					</div>
-				</form>
+	    <ul class="collection form-group" data-ng-repeat="aType in allType" ng-show="aType.status">
+		    <li class="collection-item" id="addType" showTypeLabel(aType)>
+			    <div id="type" class="row">
+			    	<form id="selectType">
+						<div class="select-box col s6">
+							<select ng-model="aType.type_id" convert-to-number class="black-text">
+								<option value="" disabled selected>Choose Type</option>
+								<option ng-selected="{{ aType.type_id == type.id }}" my-repeat-directive ng-repeat="type in types" class="black-text" value="{{ type.id }}">{{ type.type }}</option>
+							</select>
+						</div>
+					</form>
 
-				<form id="selectUnit">
-					<div class="select-box col s3">
-						<select ng-model="aType.unit_id" convert-to-number class="black-text">
-							<option value="" disabled selected>Choose Unit</option>
-							<option ng-selected="{{ aType.unit_id == unit.id }}" my-repeat-directive ng-repeat="unit in units[aType.type_id]" class="black-text" value="{{ unit.id }}">{{ unit.unit }}</option>
-						</select>
-					</div>
-				</form>
+					<form id="selectUnit">
+						<div class="select-box col s6">
+							<select ng-model="aType.unit_id" convert-to-number class="black-text">
+								<option value="" disabled selected>Choose Unit</option>
+								<option ng-selected="{{ aType.unit_id == unit.id }}" my-repeat-directive ng-repeat="unit in units[aType.type_id]" class="black-text" value="{{ unit.id }}">{{ unit.unit }}</option>
+							</select>
+						</div>
+					</form>
 
-				<div class="input-field col s3">
-		            <input id="formula" type="text" class="validate" ng-model="aType.formula">
-		            <label for="formula" ng-if="!aType.hasOwnProperty('formula')">Formula</label>
-		            <label for="formula" ng-if="aType.hasOwnProperty('formula')" class="active">Formula</label>
-		        </div>
+					<div class="input-field col s10">
+			            <input id="formula" type="text" class="validate" ng-model="aType.formula">
+			            <label for="formula" ng-if="!aType.hasOwnProperty('formula')">Formula</label>
+			            <label for="formula" ng-if="aType.hasOwnProperty('formula')" class="active">Formula</label>
+			        </div>
 
-		        <div class="col s3" ng-if="numType > 1">
-		            <a class="btn waves-effect waves-light red right" ng-click="removeType($index)">Detete</a>
-		        </div>
-		    </div>
+			        <div class="col s2" ng-if="numType > 1">
+			        	<a class="btn-floating waves-effect waves-light red right"><i class="material-icons" ng-click="removeType($index)">delete</i></a>
+			        </div>
+			    </div>
+			</li>
+		</ul>
+
+		<div class="row center">
+	    	<a class="btn-floating waves-effect waves-light green accent-3" ng-click="addNewType()"><i class="material-icons">add</i></a>
+	    </div>
+
+	    <div class="row">
+	    	<button ng-click="back(device.id)" class="btn waves-effect waves-light left">Back</button>
+	    	<button ng-click="submit()" class="btn waves-effect waves-light right" type="submit" name="action">Save</button>
 	    </div>
 	</div>
-	
-    <div class="row">
-    	<a class="btn-floating waves-effect waves-light red right add" ng-click="addNewType()"><i class="material-icons">add</i></a>
-    </div>
-
-	<div class="row">
-    	<button ng-click="submit()" class="btn waves-effect waves-light right" type="submit" name="action">Submit
-		<i class="material-icons right">send</i>
-	</button>
-    </div>	
 </div>

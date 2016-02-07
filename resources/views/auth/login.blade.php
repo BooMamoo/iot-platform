@@ -2,7 +2,6 @@
 
 @section('content')
 	<div class="container content">
-
 		<div class="row form blue-grey lighten-5">
 			<p class="text-form teal-text">Login</p>
 			

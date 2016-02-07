@@ -12,12 +12,6 @@ app.config(function($routeProvider, $locationProvider) {
 			data: ['$http', function($http){
 				return $http.get("/register");
 			}]
-			// types: ['$http', function($http){
-			// 	return $http.get("/register");
-			// }],
-			// units: ['$http', function($http){
-			// 	return $http.get("/register");
-			// }]
 		}
 	});
 

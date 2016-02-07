@@ -1,16 +1,161 @@
-.content
-{
-    margin-top: 90px;
-    min-height: 429px;
-}
-
 .space
 {
-    margin-left: 50px; 
-    margin-right: 50px;
+    margin-left: 2%; 
+    margin-right: 2%;
 }
 
-.type-box
+nav .brand-logo
 {
-	background: pink;
+	position: static;
+	transform: translateX(0%);
+	margin-top: 5px; 
+}
+
+.opacity
+{
+	opacity: 0.7;
+}
+
+.tmp
+{
+	margin-left: 20px; 
+}
+
+footer.page-footer
+{
+	margin-top: 0px;
+	padding-top: 0px;
+}
+
+/* Login Page */
+
+.content
+{
+    margin-top: 50px;
+    min-height: 429px;
+    margin-bottom: 50px;
+}
+
+.form
+{
+	margin-top: 80px;
+    padding: 40px;
+    border-radius: 10px;
+}
+
+.text-form
+{
+    font-size: 20px;
+    margin-bottom: 50px;
+    margin-top: -5px;
+}
+
+.alert
+{
+	padding: 20px;
+	border-radius: 10px;
+}
+
+/* Index Page */
+
+.banner
+{
+	background: url('../picture/background2.png') no-repeat;
+	background-size: cover;
+	background-position: top center;
+	overflow: hidden;
+	min-height: 559px;
+}
+
+.wrapper
+{
+	margin-top: 50px;
+	margin-bottom: 50px;
+}
+
+.caption p
+{
+	font-weight: lighter;
+	font-size: 50px;
+	display: inline-block;
+	padding: 20px;
+	background: rgba(255, 255, 255, 0.6) none repeat scroll 0% 0%;
+}
+
+p.detail
+{
+	font-size: 22px;
+	margin-left: 20%;
+	margin-right: 20%;
+}
+
+.btn-index
+{
+	margin-top: 35px;
+}
+
+/* Register Page */
+
+.page-header p
+{
+	font-size: 40px;
+}
+
+.divider
+{
+	height: 1.5px;
+	margin-top: -15px;
+}
+
+.page-content
+{
+	margin: 20px;
+	margin-top: 50px;
+	padding: 20px 50px 20px 50px;
+	border-radius: 10px;
+}
+
+/* Info Page */
+
+.content-text
+{
+	font-size: 22px;
+}
+
+.content-text .collection-item
+{
+	font-size: 18px;
+}
+
+.btn-content
+{
+	margin-top: 50px;
+	margin-bottom: 20px;
+}
+
+/* List Page */
+
+input[type="text"]:focus:not([readonly]), 
+textarea.materialize-textarea:focus:not([readonly]) 
+{
+    border-bottom: 0px;
+    box-shadow: 0px 0px 0px 0px;
+}
+
+input[type="text"].search 
+{
+    background-color: #263238;
+    border: 0px none;
+    border-radius: 5px;
+    box-sizing: border-box;
+    color: black;
+    height: 46px;
+    padding-left: 15px;
+    outline: medium none;
+    margin-top: 20px;
+}
+
+.card-detail
+{
+	margin-top: 20px;
 }
