@@ -60,7 +60,7 @@ footer.page-footer
 
 .banner
 {
-	background: url('../picture/background2.png') no-repeat;
+	background: url('../picture/bg.png') no-repeat;
 	background-size: cover;
 	background-position: top center;
 	overflow: hidden;
@@ -113,6 +113,11 @@ p.detail
 	margin-top: 50px;
 	padding: 20px 50px 20px 50px;
 	border-radius: 10px;
+}
+
+.collection
+{
+	overflow: visible;
 }
 
 /* Info Page */
