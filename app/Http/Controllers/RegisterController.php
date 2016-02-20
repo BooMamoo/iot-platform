@@ -36,7 +36,7 @@ class RegisterController extends Controller
     	$new_device->interval = $interval;
     	$new_device->save();
 
-        $this->sendToServer($new_device, 'device');
+        $this->sendToServer($new_device, 'device', 'regis');
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -47,7 +47,7 @@ class RegisterController extends Controller
             $mapping->formula = $types[$i]['formula'];
             $mapping->save();
 
-            $this->sendToServer($mapping, 'mapping');
+            $this->sendToServer($mapping, 'mapping', 'regis');
         }
 
     	return "true";
@@ -66,6 +66,8 @@ class RegisterController extends Controller
         $edit_device->save();
         $device = $edit_device;
 
+        $this->sendToServer($device, 'device', 'edit');
+
         for($i = 0 ; $i < count($types) ; $i++)
         {
             switch ($types[$i]['item']) {
@@ -77,10 +79,13 @@ class RegisterController extends Controller
                             $edit_type->unit_id = $types[$i]['unit_id'];
                             $edit_type->formula = $types[$i]['formula'];
                             $edit_type->save();
+
+                            $this->sendToServer($edit_type, 'mapping', 'edit');
                             break;
 
                         case false:
                             $delete_type = Mapping::find($types[$i]['mapping_id']);
+                            $this->sendToServer($delete_type, 'mapping', 'delete');
                             $delete_type->delete();
                             break;
 
@@ -99,6 +104,8 @@ class RegisterController extends Controller
                             $new_type->unit_id = $types[$i]['unit_id'];
                             $new_type->formula = $types[$i]['formula'];
                             $new_type->save();
+
+                            $this->sendToServer($new_type, 'mapping', 'edit');
                             break;
 
                         default:
@@ -121,27 +128,60 @@ class RegisterController extends Controller
     public function delete(Request $request)
     {
         $device_id = $request->input('device_id');
-
         $delete_device = Device::find($device_id);
+        $this->sendToServer($delete_device, 'device', 'delete');
         $delete_device->delete();
 
         return "true";
     }
 
-    public function sendToServer($data, $parameter)
+    public function sendToServer($data, $parameter, $action)
     {
-        $ip = config('ip');
-        $url = $ip . '/data/store';
-        $client = new Client();
-        $local = config('local');
+        if($action == 'regis')
+        {
+            $ip = config('ip');
+            $url = $ip . '/data/store';
+            $client = new Client();
+            $local = config('local');
 
-        $response = $client->request('POST', $url, [
-            'json' => [
-                'data' => $data, 
-                'parameter' => $parameter, 
-                'local' => $local
-            ]
-        ]);
+            $response = $client->request('POST', $url, [
+                'json' => [
+                    'data' => $data, 
+                    'parameter' => $parameter, 
+                    'local' => $local
+                ]
+            ]);
+        }
+        else if($action == 'edit')
+        {
+            $ip = config('ip');
+            $url = $ip . '/data/edit';
+            $client = new Client();
+            $local = config('local');
+
+            $response = $client->request('POST', $url, [
+                'json' => [
+                    'data' => $data, 
+                    'parameter' => $parameter, 
+                    'local' => $local
+                ]
+            ]);
+        }
+        else if($action == 'delete')
+        {
+            $ip = config('ip');
+            $url = $ip . '/data/delete';
+            $client = new Client();
+            $local = config('local');
+
+            $response = $client->request('POST', $url, [
+                'json' => [
+                    'data' => $data, 
+                    'parameter' => $parameter, 
+                    'local' => $local
+                ]
+            ]);
+        }
 
         // print_r($response->getBody()->getContents());
     }

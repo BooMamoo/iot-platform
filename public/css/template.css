@@ -173,8 +173,8 @@ p.detail
 
 /* List Page */
 
-input[type="text"]:focus:not([readonly]), 
-textarea.materialize-textarea:focus:not([readonly]) 
+input[type="text"]:focus:not([readonly]).search, 
+textarea.materialize-textarea:focus:not([readonly]).search
 {
     border-bottom: 0px;
     box-shadow: 0px 0px 0px 0px;
@@ -196,4 +196,11 @@ input[type="text"].search
 .card-detail
 {
 	margin-top: 20px;
+}
+
+.no-info
+{
+    font-size: 40px;
+    margin: 20px;
+    padding: 40px;
 }

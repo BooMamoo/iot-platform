@@ -3,6 +3,15 @@ app.controller('ListController', function($scope, $location, data){
 	$scope.tmp = data.data.devices;
 	$scope.iScrollPos = 0;
 
+    if($scope.devices.length == 0)
+    {
+        $scope.no_device = true;
+    }
+    else
+    {
+        $scope.no_device = false;
+    }
+
     $(window).scroll(function () {
         $scope.iScrollPos = $(this).scrollTop();
 
@@ -28,6 +37,15 @@ app.controller('ListController', function($scope, $location, data){
             	{
             		$scope.devices.push($scope.tmp[i]);
             	}
+            }
+
+            if($scope.devices.length == 0)
+            {
+                $scope.no_device = true;
+            }
+            else
+            {
+                $scope.no_device = false;
             }
         }
     });
