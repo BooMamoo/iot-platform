@@ -4,6 +4,20 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 	$scope.types = types.data.types;
 	$scope.units = types.data.units;
 	$scope.iScrollPos = 0;
+	$scope.numModal = 0;
+	$scope.allType = [];
+	$scope.formula = [];
+
+    $scope.setActiveFormula = function(index) {
+	    if($scope.formula[index] != "")
+	    {
+	        $(".formula-label-" + index).addClass("active");
+	    }
+	    else
+	    {
+	        $(".formula-label-" + index).removeClass("active");
+	    }
+    }
 
     $(window).scroll(function () {
         $scope.iScrollPos = $(this).scrollTop();
@@ -17,8 +31,6 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
             $(".navbar-fixed").removeClass("opacity");
         }
     });
-	
-	$scope.allType = [];
 
 	for(var i = 0 ; i < data.data[0].mapping.length ; i++)
 	{
@@ -29,6 +41,9 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 							 'item': "old",
 							 'mapping_id': data.data[0].mapping[i].id,
 							 'status': true});
+
+		$scope.formula.push(data.data[0].mapping[i].formula);	
+		$scope.setActiveFormula(i);
 	}
 
 	$scope.numType = $scope.allType.length;
@@ -55,15 +70,15 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 		$scope.allType.push({'id': 'type' + newItemNo,
 							 'item': "new",
 							 'status': true});
-
+		$scope.formula.push("");
 		$scope.numType++;
 	};
 
 	$scope.removeType = function(index) {
-		console.log(index)
 		if($scope.allType[index].item == "new")
 		{
 			$scope.allType.splice(index, 1);
+			$scope.formula.splice(index, 1);
 		}
 		else
 		{
@@ -112,4 +127,33 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 			}
 	    });
 	}
+
+	$scope.modal = function(index) {
+		$('#modal1').openModal();
+		$scope.numModal = index;
+	}
+
+	$scope.close = function() {
+		$('#modal1').closeModal();   
+	}
+
+	$scope.updateOutput = function (btn, index) {
+		$scope.formula[index] += btn;
+		$scope.allType[index].formula = $scope.formula[index];
+		$scope.setActiveFormula(index);
+    };
+
+    $scope.deleteOutput = function(state, index) {
+    	if(state == 'one')
+    	{
+    		$scope.formula[index] = $scope.formula[index].substring(0, $scope.formula[index].length - 1);
+    	}
+    	else if(state == 'all')
+    	{
+    		$scope.formula[index] = "";
+    	}
+
+    	$scope.allType[index].formula = $scope.formula[index];
+    	$scope.setActiveFormula(index);
+    }
 });

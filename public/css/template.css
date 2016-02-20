@@ -135,9 +135,12 @@ p.detail
 
 .num
 {
-	margin: 25px;
-	margin-left: 0px;
-	margin-bottom: 0px;
+	margin: 15px 25px 0px 0px;
+}
+
+.num-btn
+{
+	margin-top: -10px
 }
 
 .num-last
@@ -147,7 +150,7 @@ p.detail
 
 .symbol
 {
-	margin-top: 25px;
+	margin-top: 15px;
 }
 
 /* Info Page */
