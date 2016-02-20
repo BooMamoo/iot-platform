@@ -44,6 +44,8 @@ class RegisterController extends Controller
             $mapping->device_id = $new_device->id;
             $mapping->type_id = $types[$i]['type_id'];
             $mapping->unit_id = $types[$i]['unit_id'];
+            $mapping->min_threshold = $types[$i]['min_threshold'];
+            $mapping->max_threshold = $types[$i]['max_threshold'];
             $mapping->formula = $types[$i]['formula'];
             $mapping->save();
 
@@ -77,6 +79,8 @@ class RegisterController extends Controller
                             $edit_type = Mapping::find($types[$i]['mapping_id']);
                             $edit_type->type_id = $types[$i]['type_id'];
                             $edit_type->unit_id = $types[$i]['unit_id'];
+                            $edit_type->min_threshold = $types[$i]['min_threshold'];
+                            $edit_type->max_threshold = $types[$i]['max_threshold'];
                             $edit_type->formula = $types[$i]['formula'];
                             $edit_type->save();
 
@@ -102,6 +106,8 @@ class RegisterController extends Controller
                             $new_type->device_id = $device->id;
                             $new_type->type_id = $types[$i]['type_id'];
                             $new_type->unit_id = $types[$i]['unit_id'];
+                            $new_type->min_threshold = $types[$i]['min_threshold'];
+                            $new_type->max_threshold = $types[$i]['max_threshold'];
                             $new_type->formula = $types[$i]['formula'];
                             $new_type->save();
 

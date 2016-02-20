@@ -43,6 +43,18 @@
 						</div>
 					</form>
 
+					<div class="input-field col s6">
+						<input id="min-threshold" type="number" class="validate" ng-model="aType.min_threshold">
+			            <label for="min_threshold" class="active" ng-if="aType.hasOwnProperty('min_threshold')">Min Threshold</label>
+			            <label for="min_threshold" ng-if="!aType.hasOwnProperty('min_threshold')">Min Threshold</label>
+					</div>
+
+					<div class="input-field col s6">
+						<input id="max-threshold" type="number" class="validate" ng-model="aType.max_threshold">
+			            <label for="max_threshold" class="active" ng-if="aType.hasOwnProperty('max_threshold')">Max Threshold</label>
+			            <label for="max_threshold" ng-if="!aType.hasOwnProperty('max_threshold')">Max Threshold</label>
+					</div>
+
 			        <div class="input-field col s8">
 			            <input disabled id="formula" type="text" class="validate" ng-model="aType.formula">
 			            <label for="formula" class="formula-label-{{ $index }}" ng-if="!aType.hasOwnProperty('formula')">Formula</label>
