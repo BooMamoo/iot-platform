@@ -4,6 +4,8 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 	$scope.allType = [{id: 'type1'}];
 	$scope.numType = 1;
 	$scope.iScrollPos = 0;
+	$scope.formula = [""];
+	$scope.numModal = 0;
 
     $(window).scroll(function () {
         $scope.iScrollPos = $(this).scrollTop();
@@ -38,11 +40,13 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 	$scope.addNewType = function() {
 		var newItemNo = $scope.allType.length + 1;
 		$scope.allType.push({'id': 'type' + newItemNo});
+		$scope.formula.push("");
 		$scope.numType++;
 	};
 
 	$scope.removeType = function(index) {
 		$scope.allType.splice(index, 1);
+		$scope.formula.splice(index, 1);
 		$scope.numType--;
 	}
 
@@ -72,4 +76,44 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 		    $scope.allType = [{id: 'type1'}];
 	    });
 	}
+
+	$scope.modal = function(index) {
+		$('#modal1').openModal();
+		$scope.numModal = index;
+	}
+
+	$scope.close = function() {
+		$('#modal1').closeModal();   
+	}
+
+	$scope.updateOutput = function (btn, index) {
+		$scope.formula[index] += btn;
+		$scope.allType[index].formula = $scope.formula[index];
+		$scope.setActiveFormula(index);
+    };
+
+    $scope.deleteOutput = function(state, index) {
+    	if(state == 'one')
+    	{
+    		$scope.formula[index] = $scope.formula[index].substring(0, $scope.formula[index].length - 1);
+    	}
+    	else if(state == 'all')
+    	{
+    		$scope.formula[index] = "";
+    	}
+
+    	$scope.allType[index].formula = $scope.formula[index];
+    	$scope.setActiveFormula(index);
+    }
+
+    $scope.setActiveFormula = function(index) {
+        if($scope.formula[index] != "")
+        {
+            $(".formula-label-" + index).addClass("active");
+        }
+        else
+        {
+            $(".formula-label-" + index).removeClass("active");
+        }
+    }
 });

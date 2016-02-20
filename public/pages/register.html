@@ -43,12 +43,78 @@
 						</div>
 					</form>
 
-					<div class="input-field col s10">
-			            <input id="formula" type="text" class="validate" ng-model="aType.formula">
-			            <label for="formula">Formula</label>
+					<div class="input-field col s8">
+			            <input disabled id="formula" type="text" class="validate" ng-model="aType.formula">
+			            <label for="formula" class="formula-label-{{ $index }}">Formula</label>
 			        </div>
 
-			        <div class="col s2" ng-if="numType > 1">
+			        <div class="col s3">
+			        	<div class="formula-btn center">
+			        		<button ng-click="modal($index)" class="btn modal-trigger center">Formula</button>
+			        	</div>
+			        	
+			        	<div id="modal1" class="modal modal-fixed-footer">
+							<div class="modal-content">
+								<h4>Formula</h4>
+								<div class="formula-box blue-grey lighten-5">
+									<p>{{ formula[numModal] }}</p>
+								</div>
+
+								<div class="container">
+									<div class="row">
+										<div class="numpad col s6">
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("1", numModal)'>1</button>
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("2", numModal)'>2</button>
+											<button class="btn-floating waves-effect waves-light num num-last" ng-click='updateOutput("3", numModal)'>3</button>
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("4", numModal)'>4</button>
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("5", numModal)'>5</button>
+											<button class="btn-floating waves-effect waves-light num num-last" ng-click='updateOutput("6", numModal)'>6</button>
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("7", numModal)'>7</button>
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("8", numModal)'>8</button>
+											<button class="btn-floating waves-effect waves-light num num-last" ng-click='updateOutput("9", numModal)'>9</button>
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("x", numModal)'>x</button>
+											<button class="btn-floating waves-effect waves-light num" ng-click='updateOutput("0", numModal)'>0</button>
+											<button class="btn-floating waves-effect waves-light num num-last" ng-click='deleteOutput("one", numModal)'>C</button>
+										</div>
+
+										<div class="center col s3">
+											<button class="btn waves-effect waves-light symbol amber" ng-click='updateOutput("+", numModal)'>ADD</button>
+										</div>
+										<div class="center col s3">
+											<button class="btn waves-effect waves-light symbol amber" ng-click='updateOutput("-", numModal)'>SUB</button>
+										</div>
+
+										<div class="center col s3">
+											<button class="btn waves-effect waves-light symbol amber" ng-click='updateOutput("*", numModal)'>MUL</button>
+										</div>
+
+										<div class="center col s3">
+											<button class="btn waves-effect waves-light symbol amber" ng-click='updateOutput("/", numModal)'>DIV</button>
+										</div>
+
+										<div class="center col s3">
+											<button class="btn waves-effect waves-light symbol amber" ng-click='updateOutput("**", numModal)'>POW</button>
+										</div>
+
+										<div class="center col s3">
+											<button class="btn-floating waves-effect waves-light symbol amber" ng-click='updateOutput("(", numModal)'>(</button>
+											<button class="btn-floating waves-effect waves-light symbol amber" ng-click='updateOutput(")", numModal)'>)</button>
+										</div>
+
+										<div class="center col s6">
+											<button class="btn waves-effect waves-light symbol amber" ng-click='deleteOutput("all", numModal)'>CLEAR</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div class="modal-footer">
+								<a ng-click="close()" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+							</div>
+						</div>
+			        </div>
+
+			        <div class="formula-btn center col s1" ng-if="numType > 1">
 			        	<a class="btn-floating waves-effect waves-light red right"><i class="material-icons" ng-click="removeType($index)">delete</i></a>
 			        </div>
 			    </div>

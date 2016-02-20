@@ -120,6 +120,36 @@ p.detail
 	overflow: visible;
 }
 
+.formula-btn
+{
+	margin-top: 15px;
+}
+
+.formula-box
+{
+	margin: 30px;
+	padding: 5px 20px 5px 20px;
+	min-height: 62px;
+	border-radius: 5px;
+}
+
+.num
+{
+	margin: 25px;
+	margin-left: 0px;
+	margin-bottom: 0px;
+}
+
+.num-last
+{
+	margin-right: 0px;
+}
+
+.symbol
+{
+	margin-top: 25px;
+}
+
 /* Info Page */
 
 .content-text
