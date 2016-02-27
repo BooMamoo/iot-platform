@@ -74,6 +74,8 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 		   	$scope.location = "";
 		    $scope.interval = "";
 		    $scope.allType = [{id: 'type1'}];
+		    $scope.formula = [""];
+		    $scope.numModal = 0;
 	    });
 	}
 

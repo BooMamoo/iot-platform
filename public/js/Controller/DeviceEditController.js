@@ -115,7 +115,9 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 	        $scope.device = data.device;
 	        $scope.device_name = data.device.name
 		   	
-		   	$scope.allType = [];
+		   	$scope.numModal = 0;
+			$scope.allType = [];
+			$scope.formula = [];
 
 			for(var i = 0 ; i < data.mapping.length ; i++)
 			{
@@ -128,6 +130,9 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 									 'item': "old",
 									 'mapping_id': data.mapping[i].id,
 									 'status': true});
+
+				$scope.formula.push(data.data[0].mapping[i].formula);	
+				$scope.setActiveFormula(i);	
 			}
 	    });
 	}
