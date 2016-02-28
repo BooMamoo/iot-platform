@@ -50,33 +50,71 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 		$scope.numType--;
 	}
 
-	$scope.submit = function(){
-		$http({
-		    method: 'POST',
-		    url: '/regis',
-		    data: {
-		    	'device': $scope.device,
-		    	'location': $scope.location,
-		    	'interval': $scope.interval,
-		    	'types': $scope.allType
-		    }
-		}).success(function(data) {
-	        if(data == "true")
-	        {
-	            Materialize.toast("Success", 2000);
-	        }
-	        else
-	        {
-	            Materialize.toast("Fail", 2000)
-	        }
+	$scope.submit = function() {
+		if($scope.device == undefined || $scope.device == "")
+		{
+			Materialize.toast("Please enter device name", 2000);
+		}
+		else if($scope.location == undefined || $scope.location == "")
+		{
+			Materialize.toast("Please enter device location", 2000);
+		}
+		else if($scope.interval == undefined || $scope.interval == null)
+		{
+			Materialize.toast("Please enter device interval", 2000);
+		}
+		else
+		{
+			var success = true;
 
-	        $scope.device = "";
-		   	$scope.location = "";
-		    $scope.interval = "";
-		    $scope.allType = [{id: 'type1'}];
-		    $scope.formula = [""];
-		    $scope.numModal = 0;
-	    });
+			for(var i = 0 ; i < $scope.allType.length ; i++)
+			{
+				if(!$scope.allType[i].hasOwnProperty('type_id') || !$scope.allType[i].hasOwnProperty('unit_id') || !$scope.allType[i].hasOwnProperty('formula') || !$scope.allType[i].hasOwnProperty('min_threshold') || !$scope.allType[i].hasOwnProperty('max_threshold'))
+				{
+					Materialize.toast("Please complete device type", 2000);
+					success = false;
+
+					break;
+				}
+				else if($scope.allType[i].min_threshold == undefined || $scope.allType[i].min_threshold == null || $scope.allType[i].max_threshold == undefined || $scope.allType[i].max_threshold == null || $scope.allType[i].formula == undefined || $scope.allType[i].formula == null)
+				{
+					Materialize.toast("Please complete device type", 2000);
+					success = false;
+
+					break;
+				}
+			}
+
+			if(success)
+			{
+				$http({
+				    method: 'POST',
+				    url: '/regis',
+				    data: {
+				    	'device': $scope.device,
+				    	'location': $scope.location,
+				    	'interval': $scope.interval,
+				    	'types': $scope.allType
+				    }
+				}).success(function(data) {
+			        if(data == "true")
+			        {
+			            Materialize.toast("Success", 2000);
+			        }
+			        else
+			        {
+			            Materialize.toast("Fail", 2000)
+			        }
+
+			        $scope.device = "";
+				   	$scope.location = "";
+				    $scope.interval = "";
+				    $scope.allType = [{id: 'type1'}];
+				    $scope.formula = [""];
+				    $scope.numModal = 0;
+			    });
+			}
+		}
 	}
 
 	$scope.modal = function(index) {

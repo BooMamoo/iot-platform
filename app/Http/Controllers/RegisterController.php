@@ -30,13 +30,23 @@ class RegisterController extends Controller
     	$interval = $request->input('interval');
         $types = $request->input('types');
 
+        if($device == "" || $device == 'undefined' || $device == null || $location == "" || $location == 'undefined' || $location == null || $interval == "" || $interval == 'undefined' || $interval == null || !is_int($interval))
+        {
+            return "false";
+        }
+
+        $check = $this->check_type($types);
+
+        if(!$check)
+        {
+            return "false";
+        }
+
     	$new_device = new Device;
     	$new_device->name = $device;
     	$new_device->location = $location;
     	$new_device->interval = $interval;
     	$new_device->save();
-
-        $this->sendToServer($new_device, 'device', 'regis');
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -48,8 +58,6 @@ class RegisterController extends Controller
             $mapping->max_threshold = $types[$i]['max_threshold'];
             $mapping->formula = $types[$i]['formula'];
             $mapping->save();
-
-            $this->sendToServer($mapping, 'mapping', 'regis');
         }
 
     	return "true";
@@ -61,14 +69,44 @@ class RegisterController extends Controller
         $device = $request->input('device');
         $types = $request->input('types');
 
+        if(!is_array($device))
+        {
+            return "false";
+        }
+        else if(!key_exists('id', $device) || !key_exists('name', $device) || !key_exists('location', $device) || !key_exists('interval', $device))
+        {   
+            return "false";
+        }
+        else if($device['id'] == "" || $device['name'] == "" || $device['location'] == "" || $device['interval'] == "")
+        {
+            return "false";
+        }
+        else if($device['id'] == 'undefined' || $device['name'] == 'undefined' || $device['location'] == 'undefined' || $device['interval'] == 'undefined')
+        {
+            return "false";
+        }
+        else if($device['id'] == null || $device['name'] == null || $device['location'] == null || $device['interval'] == null)
+        {
+            return "false";
+        }
+        else if(!is_int($device['id']) || !is_int($device['interval']))
+        {
+            return "false";
+        }
+
+        $check = $this->check_type($types);
+
+        if(!$check)
+        {
+            return "false";
+        }
+
         $edit_device = Device::find($device['id']);
         $edit_device->name = $device['name'];
         $edit_device->location = $device['location'];
         $edit_device->interval = $device['interval'];
         $edit_device->save();
         $device = $edit_device;
-
-        $this->sendToServer($device, 'device', 'edit');
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -84,12 +122,10 @@ class RegisterController extends Controller
                             $edit_type->formula = $types[$i]['formula'];
                             $edit_type->save();
 
-                            $this->sendToServer($edit_type, 'mapping', 'edit');
                             break;
 
                         case false:
                             $delete_type = Mapping::find($types[$i]['mapping_id']);
-                            $this->sendToServer($delete_type, 'mapping', 'delete');
                             $delete_type->delete();
                             break;
 
@@ -111,7 +147,6 @@ class RegisterController extends Controller
                             $new_type->formula = $types[$i]['formula'];
                             $new_type->save();
 
-                            $this->sendToServer($new_type, 'mapping', 'edit');
                             break;
 
                         default:
@@ -135,60 +170,41 @@ class RegisterController extends Controller
     {
         $device_id = $request->input('device_id');
         $delete_device = Device::find($device_id);
-        $this->sendToServer($delete_device, 'device', 'delete');
         $delete_device->delete();
 
         return "true";
     }
 
-    public function sendToServer($data, $parameter, $action)
+    public function check_type($types)
     {
-        if($action == 'regis')
+        for($i = 0 ; $i < count($types) ; $i++)
         {
-            $ip = config('ip');
-            $url = $ip . '/data/store';
-            $client = new Client();
-            $local = config('local');
-
-            $response = $client->request('POST', $url, [
-                'json' => [
-                    'data' => $data, 
-                    'parameter' => $parameter, 
-                    'local' => $local
-                ]
-            ]);
-        }
-        else if($action == 'edit')
-        {
-            $ip = config('ip');
-            $url = $ip . '/data/edit';
-            $client = new Client();
-            $local = config('local');
-
-            $response = $client->request('POST', $url, [
-                'json' => [
-                    'data' => $data, 
-                    'parameter' => $parameter, 
-                    'local' => $local
-                ]
-            ]);
-        }
-        else if($action == 'delete')
-        {
-            $ip = config('ip');
-            $url = $ip . '/data/delete';
-            $client = new Client();
-            $local = config('local');
-
-            $response = $client->request('POST', $url, [
-                'json' => [
-                    'data' => $data, 
-                    'parameter' => $parameter, 
-                    'local' => $local
-                ]
-            ]);
+            if(!is_array($types[$i]))
+            {
+                return false;
+            }
+            else if(!key_exists('type_id', $types[$i]) || !key_exists('unit_id', $types[$i]) || !key_exists('min_threshold', $types[$i]) || !key_exists('max_threshold', $types[$i]) || !key_exists('formula', $types[$i]))
+            {   
+                return false;
+            }
+            else if($types[$i]['type_id'] == "" || $types[$i]['unit_id'] == "" || $types[$i]['min_threshold'] == "" || $types[$i]['max_threshold'] == "" || $types[$i]['formula'] == "")
+            {
+                return false;
+            }
+            else if($types[$i]['type_id'] == 'undefined' || $types[$i]['unit_id'] == 'undefined' || $types[$i]['min_threshold'] == 'undefined' || $types[$i]['max_threshold'] == 'undefined' || $types[$i]['formula'] == 'undefined')
+            {
+                return false;
+            }
+            else if($types[$i]['type_id'] == null || $types[$i]['unit_id'] == null || $types[$i]['min_threshold'] == null || $types[$i]['max_threshold'] == null || $types[$i]['formula'] == null)
+            {
+                return false;
+            }
+            else if(!is_int($types[$i]['min_threshold']) || !is_int($types[$i]['max_threshold']))
+            {
+                return false;
+            }
         }
 
-        // print_r($response->getBody()->getContents());
+        return true;
     }
 }

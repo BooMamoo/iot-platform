@@ -95,46 +95,89 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 	};
 
 	$scope.submit = function() {
-		$http({
-			method: 'POST',
-		    url: '/device/edit',
-		    data: {
-		    	'device': $scope.device,
-		    	'types': $scope.allType
-		    }
-		}).success(function(data) {
-	        if(data.status == "true")
-	        {
-	            Materialize.toast("Success", 2000);
-	        }
-	        else
-	        {
-	            Materialize.toast("Fail", 2000)
-	        }
+		if($scope.device.name == undefined || $scope.device.name == "")
+		{
+			Materialize.toast("Please enter device name", 2000);
+		}
+		else if($scope.device.location == undefined || $scope.device.location == "")
+		{
+			Materialize.toast("Please enter device location", 2000);
+		}
+		else if($scope.device.interval == undefined || $scope.device.interval == null)
+		{
+			Materialize.toast("Please enter device interval", 2000);
+		}
+		else
+		{
+			var success = true;
 
-	        $scope.device = data.device;
-	        $scope.device_name = data.device.name
-		   	
-		   	$scope.numModal = 0;
-			$scope.allType = [];
-			$scope.formula = [];
-
-			for(var i = 0 ; i < data.mapping.length ; i++)
+			for(var i = 0 ; i < $scope.allType.length ; i++)
 			{
-				$scope.allType.push({'id': "type" + i, 
-									 'type_id': data.mapping[i].type_id,
-									 'unit_id': data.mapping[i].unit_id, 
-									 'min_threshold': data.mapping[i].min_threshold, 
-							 		 'max_threshold': data.mapping[i].max_threshold, 
-									 'formula': data.mapping[i].formula,
-									 'item': "old",
-									 'mapping_id': data.mapping[i].id,
-									 'status': true});
+				if(!$scope.allType[i].status)
+				{
+					continue;
+				}
 
-				$scope.formula.push(data.data[0].mapping[i].formula);	
-				$scope.setActiveFormula(i);	
+				if(!$scope.allType[i].hasOwnProperty('type_id') || !$scope.allType[i].hasOwnProperty('unit_id') || !$scope.allType[i].hasOwnProperty('formula') || !$scope.allType[i].hasOwnProperty('min_threshold') || !$scope.allType[i].hasOwnProperty('max_threshold'))
+				{
+					Materialize.toast("Please complete device type", 2000);
+					success = false;
+
+					break;
+				}
+				else if($scope.allType[i].min_threshold == undefined || $scope.allType[i].min_threshold == null || $scope.allType[i].max_threshold == undefined || $scope.allType[i].max_threshold == null || $scope.allType[i].formula == undefined || $scope.allType[i].formula == null)
+				{
+					Materialize.toast("Please complete device type", 2000);
+					success = false;
+
+					break;
+				}
 			}
-	    });
+
+			if(success)
+			{
+				$http({
+					method: 'POST',
+				    url: '/device/edit',
+				    data: {
+				    	'device': $scope.device,
+				    	'types': $scope.allType
+				    }
+				}).success(function(data) {
+			        if(data.status == "true")
+			        {
+			            Materialize.toast("Success", 2000);
+			        }
+			        else
+			        {
+			            Materialize.toast("Fail", 2000)
+			        }
+
+			        $scope.device = data.device;
+			        $scope.device_name = data.device.name
+				   	
+				   	$scope.numModal = 0;
+					$scope.allType = [];
+					$scope.formula = [];
+
+					for(var i = 0 ; i < data.mapping.length ; i++)
+					{
+						$scope.allType.push({'id': "type" + i, 
+											 'type_id': data.mapping[i].type_id,
+											 'unit_id': data.mapping[i].unit_id, 
+											 'min_threshold': data.mapping[i].min_threshold, 
+									 		 'max_threshold': data.mapping[i].max_threshold, 
+											 'formula': data.mapping[i].formula,
+											 'item': "old",
+											 'mapping_id': data.mapping[i].id,
+											 'status': true});
+
+						$scope.formula.push(data.mapping[i].formula);	
+						$scope.setActiveFormula(i);	
+					}
+			    });
+			}
+		}
 	}
 
 	$scope.modal = function(index) {
