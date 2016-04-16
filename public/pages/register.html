@@ -53,14 +53,21 @@
 			            <label for="formula">Max Threshold</label>
 					</div>
 
-					<div class="input-field col s8">
+					<div class="input-field col s6">
 			            <input disabled id="formula" type="text" class="validate" ng-model="aType.formula">
 			            <label for="formula" class="formula-label-{{ $index }}">Formula</label>
 			        </div>
 
+			        <div class="select-box col s3">
+						<select ng-model="aType.formula" convert-to-number class="black-text">
+							<option value="" disabled selected>Formulas</option>
+							<option my-repeat-directive ng-repeat="formula in formulas" class="black-text" value="{{ formula.formula }}">{{ formula.name }}</option>
+						</select>
+					</div>
+
 			        <div class="col s3">
 			        	<div class="formula-btn center">
-			        		<button ng-click="modal($index)" class="btn modal-trigger center">Formula</button>
+			        		<button ng-click="modal($index)" class="btn modal-trigger center">Custom</button>
 			        	</div>
 			        	
 			        	<div id="modal1" class="modal modal-fixed-footer">

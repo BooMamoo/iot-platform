@@ -1,6 +1,7 @@
 app.controller('RegisterController', function($scope, $http, $compile, data) {
 	$scope.types = data.data.types;
 	$scope.units = data.data.units;
+	$scope.formulas = data.data.formulas;
 	$scope.allType = [{id: 'type1'}];
 	$scope.numType = 1;
 	$scope.iScrollPos = 0;

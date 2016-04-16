@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'CreateDevicesTable' => $baseDir . '/database/migrations/2015_12_10_165318_create_devices_table.php',
+    'CreateFormulasTable' => $baseDir . '/database/migrations/2016_04_16_142631_create_formulas_table.php',
     'CreateInformationsTable' => $baseDir . '/database/migrations/2015_12_10_165530_create_informations_table.php',
     'CreateMappingsTable' => $baseDir . '/database/migrations/2015_12_10_165450_create_mappings_table.php',
     'CreatePasswordResetsTable' => $baseDir . '/database/migrations/2014_10_12_100000_create_password_resets_table.php',
@@ -17,6 +18,7 @@ return array(
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
+    'FormulaTableSeeder' => $baseDir . '/database/seeds/FormulaTableSeeder.php',
     'Hamcrest\\Arrays\\IsArray' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArray.php',
     'Hamcrest\\Arrays\\IsArrayContaining' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContaining.php',
     'Hamcrest\\Arrays\\IsArrayContainingInAnyOrder' => $vendorDir . '/hamcrest/hamcrest-php/hamcrest/Hamcrest/Arrays/IsArrayContainingInAnyOrder.php',

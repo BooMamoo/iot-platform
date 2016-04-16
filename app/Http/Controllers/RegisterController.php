@@ -6,11 +6,13 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
+use Validator;
 use App\Device;
 use App\Type;
 use App\Unit;
 use App\Mapping;
 use App\Information;
+use App\Formula;
 use GuzzleHttp\Client;
 
 class RegisterController extends Controller
@@ -19,8 +21,9 @@ class RegisterController extends Controller
     {
         $types = Type::All();
         $units = Unit::All();
-
-        return compact('types', 'units');
+        $formulas = Formula::All();
+        
+        return compact('types', 'units', 'formulas');
     }
 
     public function store(Request $request)
@@ -29,6 +32,18 @@ class RegisterController extends Controller
         $location = $request->input('location');
         $interval = $request->input('interval');
         $types = $request->input('types');
+
+        // $valid = Validator::make($request->all(), [
+        //     'device' => 'required',
+        //     'location' => 'required',
+        //     'interval' => 'required|integer'
+        // ]);
+
+        // if ($valid->fails())
+        // {
+        //     $error = $valid->errors()->all();
+        //     return "false";
+        // }
 
         if($device == "" || $device == 'undefined' || $device == null || $location == "" || $location == 'undefined' || $location == null || $interval == "" || $interval == 'undefined' || $interval == null || !is_int($interval))
         {
