@@ -118,6 +118,13 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
 		}
 	}
 
+	$scope.change = function(index, formula)
+	{
+		$scope.allType[index].formula = formula;
+		$scope.formula[index]  = formula;
+		$scope.setActiveFormula(index);
+	}
+
 	$scope.modal = function(index) {
 		$('#modal1').openModal();
 		$scope.numModal = index;
@@ -148,7 +155,7 @@ app.controller('RegisterController', function($scope, $http, $compile, data) {
     }
 
     $scope.setActiveFormula = function(index) {
-        if($scope.formula[index] != "")
+        if($scope.allType[index].formula != "")
         {
             $(".formula-label-" + index).addClass("active");
         }

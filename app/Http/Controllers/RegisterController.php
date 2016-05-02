@@ -33,20 +33,15 @@ class RegisterController extends Controller
         $interval = $request->input('interval');
         $types = $request->input('types');
 
-        // $valid = Validator::make($request->all(), [
-        //     'device' => 'required',
-        //     'location' => 'required',
-        //     'interval' => 'required|integer'
-        // ]);
+        $valid = Validator::make($request->all(), [
+            'device' => 'required',
+            'location' => 'required',
+            'interval' => 'required|integer'
+        ]);
 
-        // if ($valid->fails())
-        // {
-        //     $error = $valid->errors()->all();
-        //     return "false";
-        // }
-
-        if($device == "" || $device == 'undefined' || $device == null || $location == "" || $location == 'undefined' || $location == null || $interval == "" || $interval == 'undefined' || $interval == null || !is_int($interval))
+        if ($valid->fails())
         {
+            $error = $valid->errors()->all();
             return "false";
         }
 
@@ -63,7 +58,7 @@ class RegisterController extends Controller
         $new_device->interval = $interval;
         $new_device->save();
 
-        $result = shell_exec('python /home/vagrant/Code/iot-platform/publish.py /regis/device/' . config('local') . ' ' . escapeshellarg(json_encode($new_device)));
+        $result = shell_exec('python /var/www/html/iot-platform/publish.py /regis/device/' . config('local') . ' ' . escapeshellarg(json_encode($new_device)));
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -76,11 +71,10 @@ class RegisterController extends Controller
             $mapping->formula = $types[$i]['formula'];
             $mapping->save();
 
-            $result = shell_exec('python /home/vagrant/Code/iot-platform/publish.py /regis/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($mapping)));
+            $result = shell_exec('python /var/www/html/iot-platform/publish.py /regis/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($mapping)));
         }
 
         return "true";
-        // return "false";
     }
 
     public function edit(Request $request)
@@ -127,7 +121,7 @@ class RegisterController extends Controller
         $edit_device->save();
         $device = $edit_device;
 
-        $result = shell_exec('python /home/vagrant/Code/iot-platform/publish.py /edit/device/' . config('local') . ' ' . escapeshellarg(json_encode($device)));
+        $result = shell_exec('python /var/www/html/iot-platform/publish.py /edit/device/' . config('local') . ' ' . escapeshellarg(json_encode($device)));
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -143,12 +137,12 @@ class RegisterController extends Controller
                             $edit_type->formula = $types[$i]['formula'];
                             $edit_type->save();
 
-                            $result = shell_exec('python /home/vagrant/Code/iot-platform/publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($edit_type)));
+                            $result = shell_exec('python /var/www/html/iot-platform/publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($edit_type)));
                             break;
 
                         case false:
                             $delete_type = Mapping::find($types[$i]['mapping_id']);
-                            $result = shell_exec('python /home/vagrant/Code/iot-platform/publish.py /delete/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($delete_type)));
+                            $result = shell_exec('python /var/www/html/iot-platform/publish.py /delete/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($delete_type)));
                             $delete_type->delete();
                             break;
 
@@ -170,7 +164,7 @@ class RegisterController extends Controller
                             $new_type->formula = $types[$i]['formula'];
                             $new_type->save();
 
-                            $result = shell_exec('python /home/vagrant/Code/iot-platform/publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($new_type)));
+                            $result = shell_exec('python /var/www/html/iot-platform/publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($new_type)));
                             break;
 
                         default:
@@ -194,7 +188,7 @@ class RegisterController extends Controller
     {
         $device_id = $request->input('device_id');
         $delete_device = Device::find($device_id);
-        $result = shell_exec('python /home/vagrant/Code/iot-platform/publish.py /delete/device/' . config('local') . ' ' . escapeshellarg(json_encode($delete_device)));
+        $result = shell_exec('python /var/www/html/iot-platform/publish.py /delete/device/' . config('local') . ' ' . escapeshellarg(json_encode($delete_device)));
         $delete_device->delete();
 
         return "true";

@@ -53,15 +53,9 @@
 			            <label for="formula">Max Threshold</label>
 					</div>
 
-					<div class="input-field col s6">
-			            <input disabled id="formula" type="text" class="validate" ng-model="aType.formula">
-			            <label for="formula" class="formula-label-{{ $index }}">Formula</label>
-			        </div>
-
-			        <div class="select-box col s3">
-						<select ng-model="aType.formula" convert-to-number class="black-text">
+ 					<div class="select-box col s3 formula-position">
+						<select ng-model="aType.formula" ng-options="formula.formula as formula.name for formula in formulas" ng-change="change($index, aType.formula)" my-repeat-directive convert-to-number class="black-text">
 							<option value="" disabled selected>Formulas</option>
-							<option my-repeat-directive ng-repeat="formula in formulas" class="black-text" value="{{ formula.formula }}">{{ formula.name }}</option>
 						</select>
 					</div>
 
@@ -129,6 +123,11 @@
 								<a ng-click="close()" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
 							</div>
 						</div>
+			        </div>
+
+					<div class="input-field col s5">
+			            <input disabled id="formula" type="text" class="validate" ng-model="aType.formula">
+			            <label for="formula" class="formula-label-{{ $index }}">Formula</label>
 			        </div>
 
 			        <div class="formula-btn center col s1" ng-if="numType > 1">

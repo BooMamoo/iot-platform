@@ -2,7 +2,7 @@ import paho.mqtt.client as mqtt
 import time
 import sys 
 
-BROKER_PORT = 1883
+BROKER_PORT = 44445
 BROKER_HOST = "127.0.0.1"
 KEEPALIVE = 60
 TOPIC = 'IoTPlatform' + sys.argv[1]

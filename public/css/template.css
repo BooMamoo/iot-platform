@@ -132,6 +132,10 @@ p.detail
 	min-height: 62px;
 	border-radius: 5px;
 }
+.formula-position
+{
+	margin-top: 1rem;
+}
 
 .num
 {

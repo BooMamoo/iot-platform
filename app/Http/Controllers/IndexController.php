@@ -36,6 +36,8 @@ class Indexcontroller extends Controller
     	$information->timestamp = $date;
     	$information->save();
 
+        $result = shell_exec('python /var/www/html/iot-platform/publish.py /regis/data/' . config('local') . ' ' . escapeshellarg(json_encode($information)));
+        
     	return "true";
     }
 

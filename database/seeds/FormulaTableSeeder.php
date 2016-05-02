@@ -13,7 +13,7 @@ class FormulaTableSeeder extends Seeder
     {
         DB::table('formulas')->insert(array([
             'name' => 'TTC05',
-            'formula' => 'x/5',
+            'formula' => 'x/15',
             'created_at' => new DateTime,
             'updated_at' => new DateTime,
         ],[
