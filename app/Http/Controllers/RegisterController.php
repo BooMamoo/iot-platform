@@ -28,6 +28,7 @@ class RegisterController extends Controller
 
     public function store(Request $request)
     {
+        $path = config('path');
         $device = $request->input('device');
         $location = $request->input('location');
         $interval = $request->input('interval');
@@ -58,7 +59,7 @@ class RegisterController extends Controller
         $new_device->interval = $interval;
         $new_device->save();
 
-        $result = shell_exec('python /var/www/html/iot-platform/publish.py /regis/device/' . config('local') . ' ' . escapeshellarg(json_encode($new_device)));
+        $result = shell_exec('python ' . $path . 'publish.py /regis/device/' . config('local') . ' ' . escapeshellarg(json_encode($new_device)));
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -71,7 +72,7 @@ class RegisterController extends Controller
             $mapping->formula = $types[$i]['formula'];
             $mapping->save();
 
-            $result = shell_exec('python /var/www/html/iot-platform/publish.py /regis/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($mapping)));
+            $result = shell_exec('python ' . $path . 'publish.py /regis/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($mapping)));
         }
 
         return "true";
@@ -79,6 +80,7 @@ class RegisterController extends Controller
 
     public function edit(Request $request)
     {
+        $path = config('path');
         $device = $request->input('device');
         $types = $request->input('types');
 
@@ -121,7 +123,7 @@ class RegisterController extends Controller
         $edit_device->save();
         $device = $edit_device;
 
-        $result = shell_exec('python /var/www/html/iot-platform/publish.py /edit/device/' . config('local') . ' ' . escapeshellarg(json_encode($device)));
+        $result = shell_exec('python ' . $path . 'publish.py /edit/device/' . config('local') . ' ' . escapeshellarg(json_encode($device)));
 
         for($i = 0 ; $i < count($types) ; $i++)
         {
@@ -137,12 +139,12 @@ class RegisterController extends Controller
                             $edit_type->formula = $types[$i]['formula'];
                             $edit_type->save();
 
-                            $result = shell_exec('python /var/www/html/iot-platform/publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($edit_type)));
+                            $result = shell_exec('python ' . $path . 'publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($edit_type)));
                             break;
 
                         case false:
                             $delete_type = Mapping::find($types[$i]['mapping_id']);
-                            $result = shell_exec('python /var/www/html/iot-platform/publish.py /delete/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($delete_type)));
+                            $result = shell_exec('python ' . $path . 'publish.py /delete/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($delete_type)));
                             $delete_type->delete();
                             break;
 
@@ -164,7 +166,7 @@ class RegisterController extends Controller
                             $new_type->formula = $types[$i]['formula'];
                             $new_type->save();
 
-                            $result = shell_exec('python /var/www/html/iot-platform/publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($new_type)));
+                            $result = shell_exec('python ' . $path . 'publish.py /edit/mapping/' . config('local') . ' ' . escapeshellarg(json_encode($new_type)));
                             break;
 
                         default:
@@ -186,9 +188,10 @@ class RegisterController extends Controller
 
     public function delete(Request $request)
     {
+        $path = config('path');
         $device_id = $request->input('device_id');
         $delete_device = Device::find($device_id);
-        $result = shell_exec('python /var/www/html/iot-platform/publish.py /delete/device/' . config('local') . ' ' . escapeshellarg(json_encode($delete_device)));
+        $result = shell_exec('python ' . $path . 'publish.py /delete/device/' . config('local') . ' ' . escapeshellarg(json_encode($delete_device)));
         $delete_device->delete();
 
         return "true";

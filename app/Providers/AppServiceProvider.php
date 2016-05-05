@@ -25,10 +25,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $server_ip_address = 'http://158.108.34.49';
         $local_name = 'LocalA';
+        $path = '/var/www/html/iot-platform/';
 
         config([
             'ip' => $server_ip_address, 
-            'local' => $local_name
+            'local' => $local_name,
+            'path' => $path
         ]);
     }
 }

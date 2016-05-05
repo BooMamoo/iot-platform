@@ -20,6 +20,7 @@ class Indexcontroller extends Controller
 
     public function recieveData(Request $request)
     {
+        $path = config('path');
     	$device = $request->input('device');
     	$type = $request->input('type');
     	$value = $request->input('value');
@@ -36,7 +37,7 @@ class Indexcontroller extends Controller
     	$information->timestamp = $date;
     	$information->save();
 
-        $result = shell_exec('python /var/www/html/iot-platform/publish.py /regis/data/' . config('local') . ' ' . escapeshellarg(json_encode($information)));
+        $result = shell_exec('python ' . $path . 'publish.py /regis/data/' . config('local') . ' ' . escapeshellarg(json_encode($information)));
         
     	return "true";
     }
