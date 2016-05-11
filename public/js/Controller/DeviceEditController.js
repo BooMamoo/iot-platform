@@ -1,6 +1,9 @@
 app.controller('DeviceEditController', function($scope, $http, $location, data, types){
 	$scope.device = data.data[0];
+	$scope.device.id = parseInt($scope.device.id);
+	$scope.device.interval = parseInt($scope.device.interval);
 	$scope.device_name = data.data[0].name;
+	$scope.formulas = types.data.formulas;
 	$scope.types = types.data.types;
 	$scope.units = types.data.units;
 	$scope.iScrollPos = 0;
@@ -9,14 +12,14 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 	$scope.formula = [];
 
     $scope.setActiveFormula = function(index) {
-	    if($scope.formula[index] != "")
-	    {
-	        $(".formula-label-" + index).addClass("active");
-	    }
-	    else
-	    {
-	        $(".formula-label-" + index).removeClass("active");
-	    }
+        if($scope.allType[index].formula != "")
+        {
+            $(".formula-label-" + index).addClass("active");
+        }
+        else
+        {
+            $(".formula-label-" + index).removeClass("active");
+        }
     }
 
     $(window).scroll(function () {
@@ -37,8 +40,8 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 		$scope.allType.push({'id': "type" + i, 
 							 'type_id': data.data[0].mapping[i].type_id,
 							 'unit_id': data.data[0].mapping[i].unit_id,
-							 'min_threshold': data.data[0].mapping[i].min_threshold, 
-							 'max_threshold': data.data[0].mapping[i].max_threshold, 
+							 'min_threshold': parseInt(data.data[0].mapping[i].min_threshold), 
+							 'max_threshold': parseInt(data.data[0].mapping[i].max_threshold), 
 							 'formula': data.data[0].mapping[i].formula,
 							 'item': "old",
 							 'mapping_id': data.data[0].mapping[i].id,
@@ -135,7 +138,7 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 			}
 
 			if(success)
-			{
+			{console.log($scope.device)
 				$http({
 					method: 'POST',
 				    url: '/device/edit',
@@ -144,40 +147,50 @@ app.controller('DeviceEditController', function($scope, $http, $location, data, 
 				    	'types': $scope.allType
 				    }
 				}).success(function(data) {
+					console.log(data)
 			        if(data.status == "true")
 			        {
 			            Materialize.toast("Success", 2000);
+
+			            $scope.device = data.device;
+				        $scope.device_name = data.device.name;
+				        $scope.device.id = parseInt($scope.device.id);
+						$scope.device.interval = parseInt($scope.device.interval);
+
+					   	$scope.numModal = 0;
+						$scope.allType = [];
+						$scope.formula = [];
+
+						for(var i = 0 ; i < data.mapping.length ; i++)
+						{
+							$scope.allType.push({'id': "type" + i, 
+												 'type_id': data.mapping[i].type_id,
+												 'unit_id': data.mapping[i].unit_id, 
+												 'min_threshold': parseInt(data.mapping[i].min_threshold), 
+										 		 'max_threshold': parseInt(data.mapping[i].max_threshold), 
+												 'formula': data.mapping[i].formula,
+												 'item': "old",
+												 'mapping_id': data.mapping[i].id,
+												 'status': true});
+
+							$scope.formula.push(data.mapping[i].formula);	
+							$scope.setActiveFormula(i);	
+						}
 			        }
 			        else
 			        {
 			            Materialize.toast("Fail", 2000)
 			        }
-
-			        $scope.device = data.device;
-			        $scope.device_name = data.device.name
-				   	
-				   	$scope.numModal = 0;
-					$scope.allType = [];
-					$scope.formula = [];
-
-					for(var i = 0 ; i < data.mapping.length ; i++)
-					{
-						$scope.allType.push({'id': "type" + i, 
-											 'type_id': data.mapping[i].type_id,
-											 'unit_id': data.mapping[i].unit_id, 
-											 'min_threshold': data.mapping[i].min_threshold, 
-									 		 'max_threshold': data.mapping[i].max_threshold, 
-											 'formula': data.mapping[i].formula,
-											 'item': "old",
-											 'mapping_id': data.mapping[i].id,
-											 'status': true});
-
-						$scope.formula.push(data.mapping[i].formula);	
-						$scope.setActiveFormula(i);	
-					}
 			    });
 			}
 		}
+	}
+
+	$scope.change = function(index, formula)
+	{
+		$scope.allType[index].formula = formula;
+		$scope.formula[index]  = formula;
+		$scope.setActiveFormula(index);
 	}
 
 	$scope.modal = function(index) {

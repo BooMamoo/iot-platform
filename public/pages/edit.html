@@ -45,25 +45,23 @@
 
 					<div class="input-field col s6">
 						<input id="min-threshold" type="number" class="validate" ng-model="aType.min_threshold">
-			            <label for="min_threshold" class="active" ng-if="aType.hasOwnProperty('min_threshold')">Min Threshold</label>
-			            <label for="min_threshold" ng-if="!aType.hasOwnProperty('min_threshold')">Min Threshold</label>
+			            <label for="formula" class="active">Min Threshold</label>
 					</div>
 
 					<div class="input-field col s6">
 						<input id="max-threshold" type="number" class="validate" ng-model="aType.max_threshold">
-			            <label for="max_threshold" class="active" ng-if="aType.hasOwnProperty('max_threshold')">Max Threshold</label>
-			            <label for="max_threshold" ng-if="!aType.hasOwnProperty('max_threshold')">Max Threshold</label>
+			            <label for="formula" class="active">Max Threshold</label>
 					</div>
 
-			        <div class="input-field col s8">
-			            <input disabled id="formula" type="text" class="validate" ng-model="aType.formula">
-			            <label for="formula" class="formula-label-{{ $index }}" ng-if="!aType.hasOwnProperty('formula')">Formula</label>
-			            <label for="formula" class="formula-label-{{ $index }} active" ng-if="aType.hasOwnProperty('formula')">Formula</label>
-			        </div>
+ 					<div class="select-box col s3 formula-position">
+						<select ng-model="aType.formula" ng-options="formula.formula as formula.name for formula in formulas" ng-change="change($index, aType.formula)" my-repeat-directive convert-to-number class="black-text">
+							<option value="" disabled selected>Formulas</option>
+						</select>
+					</div>
 
 			        <div class="col s3">
 			        	<div class="formula-btn center">
-			        		<button ng-click="modal($index)" class="btn modal-trigger center">Formula</button>
+			        		<button ng-click="modal($index)" class="btn modal-trigger center">Custom</button>
 			        	</div>
 			        	
 			        	<div id="modal1" class="modal modal-fixed-footer">
@@ -127,10 +125,14 @@
 						</div>
 			        </div>
 
+					<div class="input-field col s5">
+			            <input disabled id="formula" type="text" class="validate" ng-model="aType.formula">
+			            <label for="formula" class="formula-label-{{ $index }} active">Formula</label>
+			        </div>
+
 			        <div class="formula-btn center col s1" ng-if="numType > 1">
 			        	<a class="btn-floating waves-effect waves-light red right"><i class="material-icons" ng-click="removeType($index)">delete</i></a>
 			        </div>
-			    </div>
 			    </div>
 			</li>
 		</ul>
