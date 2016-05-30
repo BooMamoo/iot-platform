@@ -16,7 +16,7 @@ Route::controllers([
 	'password' => 'Auth\PasswordController',
 ]);
 
-Route::post('/data', 'IndexController@recieveData');
+Route::post('/data', 'IndexController@receiveData');
 
 Route::group(['middleware' => 'auth'], function() {
 	Route::get('/register', 'RegisterController@index');

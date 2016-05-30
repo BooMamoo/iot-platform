@@ -18,7 +18,7 @@ class Indexcontroller extends Controller
     	return view('index');
     }
 
-    public function recieveData(Request $request)
+    public function receiveData(Request $request)
     {
         $path = config('path');
     	$device = $request->input('device');
